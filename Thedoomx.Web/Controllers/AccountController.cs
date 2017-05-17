@@ -11,7 +11,7 @@
     using Signature.Web.ViewModels.Account;
     using Thedoomx.Data.Models;
     using Thedoomx.Web.Controllers.Common;
-
+    using ViewModels.Account;
     [Authorize]
     public class AccountController : BaseController
     {

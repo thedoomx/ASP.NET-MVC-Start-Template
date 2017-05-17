@@ -1,4 +1,4 @@
-namespace Signature.Web.ViewModels.Account
+namespace Thedoomx.Web.ViewModels.Account
 {
     using System.ComponentModel.DataAnnotations;
     public class RegisterViewModel

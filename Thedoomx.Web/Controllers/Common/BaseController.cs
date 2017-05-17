@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
+    using System.Threading;
     using System.Web.Mvc;
     using AutoMapper;
     using Infrastructure.AutoMapper;
@@ -17,6 +19,16 @@
             {
                 return AutoMapperConfig.Configuration.CreateMapper();
             }
+        }
+
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            var language = this.Request.RequestContext.RouteData.Values["lang"].ToString();
+
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(language);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(language);
+
+            base.OnActionExecuting(filterContext);
         }
 
         protected override void OnException(ExceptionContext filterContext)
