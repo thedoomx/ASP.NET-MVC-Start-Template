@@ -1,6 +1,7 @@
 ﻿namespace Thedoomx.Web
 {
     using System;
+    using System.Net.Http;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin;
@@ -46,6 +47,41 @@
             // login process will be remembered on the device where you logged in from. This is
             // similar to the RememberMe option when you log in.
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
+
+            //app.UseFacebookAuthentication(new Microsoft.Owin.Security.Facebook.FacebookAuthenticationOptions
+            //{
+            //    AppId = WebConfigurationManager.AppSettings["appIdFacebook"],
+            //    AppSecret = WebConfigurationManager.AppSettings["appSecretFacebook"],
+            //    Scope = { "email" },
+            //    BackchannelHttpHandler = new FacebookBackChannelHandler(),
+            //    UserInformationEndpoint = "https://graph.facebook.com/v2.4/me?fields=id,name,email,first_name,last_name,location"
+            //});
+
+            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            //{
+            //    ClientId = WebConfigurationManager.AppSettings["clientIdGoogle"],
+            //    ClientSecret = WebConfigurationManager.AppSettings["clientSecretGoogle"]
+            //});
+
+            //app.UseLinkedInAuthentication(new LinkedInAuthenticationOptions()
+            //{
+            //    ClientId = WebConfigurationManager.AppSettings["clientIdLinkedIn"],
+            //    ClientSecret = WebConfigurationManager.AppSettings["clientSecretLinkedIn"],
+            //});
+        }
+
+        private class FacebookBackChannelHandler : HttpClientHandler
+        {
+            protected override async System.Threading.Tasks.Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
+            {
+                // Replace the RequestUri so it's not malformed
+                if (!request.RequestUri.AbsolutePath.Contains("/oauth"))
+                {
+                    request.RequestUri = new Uri(request.RequestUri.AbsoluteUri.Replace("?access_token", "&access_token"));
+                }
+
+                return await base.SendAsync(request, cancellationToken);
+            }
         }
     }
 }

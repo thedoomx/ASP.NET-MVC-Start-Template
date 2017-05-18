@@ -24,8 +24,8 @@ namespace Thedoomx.Web
                       "~/Assets/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Assets/Content/bootstrap.css",
-                      "~/Assets/Content/site.css"));
+                      "~/Assets/bootstrap.css",
+                      "~/Assets/site.css"));
         }
     }
 }
